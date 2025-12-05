@@ -132,8 +132,6 @@ CREATE TABLE `nova_chat_group` (
                                    `avatar`       VARCHAR(600) NULL,
                                    `create_by`    CHAR(60) DEFAULT NULL COMMENT '创建人',
                                    `create_date`  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                   `update_by`    CHAR(60) DEFAULT NULL COMMENT '更新人',
-                                   `update_date`  DATETIME DEFAULT NULL COMMENT '更新时间',
                                    `version`      INT DEFAULT '0' COMMENT '版本',
                                    INDEX `idx_group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='群聊表';
