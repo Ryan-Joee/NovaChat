@@ -7,9 +7,9 @@ USE novachat;
 CREATE TABLE `nova_chat_user` (
                                   `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                   `user_id`       CHAR(60) NOT NULL COMMENT '用户ID',
-                                  `username`      VARCHAR(50) UNIQUE NOT NULL COMMENT '登录账号',
+                                  `user_name`      VARCHAR(50) UNIQUE NOT NULL COMMENT '登录账号',
                                   `password`      VARCHAR(100) NOT NULL COMMENT '密码',
-                                  `nickname`      VARCHAR(50) NOT NULL DEFAULT '' COMMENT '昵称',
+                                  `nick_name`      VARCHAR(50) NOT NULL DEFAULT '' COMMENT '昵称',
                                   `avatar`        VARCHAR(600) NULL COMMENT '用户头像URL',
                                   `mobile`        VARCHAR(20) UNIQUE NULL COMMENT '手机号',
                                   `signature`     VARCHAR(500) DEFAULT '暂无签名' COMMENT '签名',
@@ -128,7 +128,7 @@ CREATE TABLE `nova_chat_friend_apply` (
 CREATE TABLE `nova_chat_group` (
                                    `id`           BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                    `group_id`     CHAR(60) NOT NULL,
-                                   `name`         CHAR(60) NOT NULL,
+                                   `group_name`         CHAR(60) NOT NULL,
                                    `avatar`       VARCHAR(600) NULL,
                                    `create_by`    CHAR(60) DEFAULT NULL COMMENT '创建人',
                                    `create_date`  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
