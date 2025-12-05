@@ -1,0 +1,38 @@
+server:
+  port: 5700
+
+#--------------数据库配置----------------#
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/novachat?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    # 数据库连接池最大连接数
+    hikari:
+      maximum-pool-size: 50
+  # 是否在控制台打印 SQL 语句
+  jpa:
+    show-sql: true
+  #--------------redis----------------#
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6378
+      database: 5
+      password: 123
+      connect-timeout: 10s
+      # Lettuce连接池
+      lettuce:
+        pool:
+          max-active: 50    # 最大连接数
+          max-wait: 100ms   # 获取连接最大等待时间
+          max-idle: 20      # 最大空闲连接
+          min-idle: 5       # 最小空闲连接
+
+#--------------MinIO配置----------------#
+minio:
+  endpoint: http://127.0.0.1:9000
+  access-key: dR6LwttgD9TB7Zpd9gxH
+  secret-key: tqKKOCNwvUCNSrKbpOb1NRhMVJE1DVabeXDxO600
+  bucket-name: novachat

@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: novachat-server
+# use application-dev.yml
+  profiles:
+    active: dev
