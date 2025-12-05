@@ -35,14 +35,11 @@ CREATE TABLE `nova_chat_file_info` (
                                        `file_url`      VARCHAR(600) NOT NULL COMMENT '完整可访问URL（你代码拼接的那种）',
                                        `file_name`     VARCHAR(255) NOT NULL COMMENT '原始文件名，如 头像.jpg',
                                        `size`          BIGINT DEFAULT 0 COMMENT '文件大小字节',
-                                       `create_by`     CHAR(60) DEFAULT NULL COMMENT '创建人',
-                                       `create_date`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                       `update_by`     CHAR(60) DEFAULT NULL COMMENT '更新人',
-                                       `update_date`   DATETIME DEFAULT NULL COMMENT '更新时间',
+                                       `upload_date`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
                                        `version`       INT DEFAULT '0' COMMENT '版本',
                                        UNIQUE KEY `uniq_object_key` (`object_key`),
                                        INDEX `idx_uploader` (`uploader_id`),
-                                       INDEX `idx_created` (`create_date` DESC)
+                                       INDEX `idx_upload_date` (`upload_date` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件信息表（当前阶段最优设计）';
 
 -- ===================================
@@ -73,20 +70,17 @@ CREATE TABLE `nova_chat_message` (
                                      `id`              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                      `conversation_id` BIGINT UNSIGNED NOT NULL COMMENT '所属会话', -- conversation_id = conversation.id
                                      `sender_id`       CHAR(60) NOT NULL,
-                                     `receiver_id`     CHAR(60) NULL COMMENT '单聊填，群聊空',
-                                     `group_id`        CHAR(60) NULL COMMENT '群聊填，单聊空',
-                                     `msg_type`        TINYINT NOT NULL DEFAULT 1 COMMENT '1文本 2图片 3语音 4视频 5文件 6撤回',
-                                     `content`         VARCHAR(1000) NULL,
-                                     `file_id`         BIGINT UNSIGNED NULL COMMENT '关联file_info.id',
+                                     `receiver_id`     CHAR(60) NULL COMMENT '接收人id',
+                                     `receiver_type`   TINYINT NULL COMMENT '接收人类型 1单聊 2群聊 等',
+                                     `message_type`    TINYINT NOT NULL DEFAULT 1 COMMENT '1文本 2图片 3语音 4视频 5文件 等',
+                                     `content`         VARCHAR(1000) NULL COMMENT '消息内容',
                                      `is_revoke`       TINYINT DEFAULT 0 COMMENT '是否撤回 0不撤回',
-                                     `create_by`       CHAR(60) DEFAULT NULL COMMENT '创建人',
-                                     `create_date`     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                     `update_by`       CHAR(60) DEFAULT NULL COMMENT '更新人',
+                                     `send_date`     	DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发送时间',
                                      `update_date`     DATETIME DEFAULT NULL COMMENT '更新时间',
                                      `version`         INT DEFAULT '0' COMMENT '版本',
-                                     INDEX `idx_conv_time` (`conversation_id`, `create_date` DESC),
+                                     INDEX `idx_conv_time` (`conversation_id`, `send_date` DESC),
                                      INDEX `idx_sender` (`sender_id`),
-                                     INDEX `idx_group` (`group_id`)
+                                     INDEX `idx_group` (`receiver_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息表';
 
 -- ===================================
@@ -142,6 +136,7 @@ CREATE TABLE `nova_chat_group_member` (
                                           `user_id`   CHAR(60) NOT NULL,
                                           `role`      TINYINT DEFAULT 3 COMMENT '1群主 2管理员 3成员',
                                           `join_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                          `version`   INT DEFAULT '0' COMMENT '版本',
                                           INDEX `idx_user` (`user_id`),
                                           INDEX `idx_group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='群成员表';
