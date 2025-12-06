@@ -418,8 +418,8 @@ const handleRegister = async () => {
  */
 const refreshVerificationCode = async () => {
   try {
-    const response = await request.get('/valid/code/get', {responseType: 'blob'})
-    const imageUrl = URL.createObjectURL(response.data)
+    const response = await request.get('/valid/captcha/get', {responseType: 'blob'})
+    const imageUrl = URL.createObjectURL(response)
     verificationCodeUrl.value = imageUrl
   } catch(error) {
     ElMessage.error('获取验证码失败，请稍后再试！')
@@ -456,9 +456,9 @@ const handleAvatarChange = async (event) => {
       const formData = new FormData()
       formData.append('file', file)
       ElMessage.info('正在上传头像...')
-      const response = await request.post('/file/upload/avatar', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await request.post('/file/upload', formData, {
+        params: {
+          'bizType': 'avatar'
         }
       })
       if (response.code === 200) {

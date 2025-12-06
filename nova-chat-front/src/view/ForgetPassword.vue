@@ -382,8 +382,8 @@ const handleResetPassword = async () => {
 
 const refreshVerificationCode = async () => {
   try {
-    const response = await request.get('/valid/code/get', {responseType: 'blob'})
-    const imageUrl = URL.createObjectURL(response.data)
+    const response = await request.get('/valid/captcha/get', {responseType: 'blob'})
+    const imageUrl = URL.createObjectURL(response)
     verificationCodeUrl.value = imageUrl
   } catch(error) {
     ElMessage.error('获取验证码失败，请稍后再试！')

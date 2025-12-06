@@ -38,7 +38,7 @@ public class FileInfoEntity implements Serializable {
     private String fileUrl;
 
     /**
-     * 原始文件名
+     * 文件名
      */
     @Column(name = "file_name")
     private String fileName;
